@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/OllyController.iml" filepath="$PROJECT_DIR$/OllyController.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Capstone-M2.iml" filepath="$PROJECT_DIR$/.idea/Capstone-M2.iml" />
+      <module fileurl="file://D:\-------------------School Stuff\Spring 2018\Capstone Class\The Real Project\Capstone App\Capstone-M2\Capstone-M2\Capstone-M2\OllyController.iml" filepath="D:\-------------------School Stuff\Spring 2018\Capstone Class\The Real Project\Capstone App\Capstone-M2\Capstone-M2\Capstone-M2\OllyController.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\-------------------School Stuff\Spring 2018\Capstone Class\The Real Project\Capstone App\Capstone-M2\Capstone-M2\Capstone-M2\app\app.iml" filepath="D:\-------------------School Stuff\Spring 2018\Capstone Class\The Real Project\Capstone App\Capstone-M2\Capstone-M2\Capstone-M2\app\app.iml" />
     </modules>
   </component>
 </project>
