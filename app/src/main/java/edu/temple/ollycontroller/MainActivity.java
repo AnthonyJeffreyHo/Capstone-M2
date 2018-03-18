@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //widgets
-    Button btnPaired;
+    //Button btnPaired;
     ListView devicelist;
     //Bluetooth
     private BluetoothAdapter myBluetooth = null;
@@ -30,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_led_controls);
 
 
 
         //Calling widgets
-        btnPaired = (Button)findViewById(R.id.button);
+         Button btnPaired = (Button)findViewById(R.id.paired_device_button);
         devicelist = (ListView)findViewById(R.id.listView);
 
         //if the device has bluetooth
@@ -58,11 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
         btnPaired.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 pairedDevicesList();
             }
         });
+
+
 
     }
     private void pairedDevicesList(){
@@ -95,12 +98,37 @@ public class MainActivity extends AppCompatActivity {
             String address = info.substring(info.length() - 17);
 
             // Make an intent to start next activity.
-            Intent i = new Intent(MainActivity.this, ledControl.class);
+            Intent i = new Intent(MainActivity.this, led_controls.class);
 
             //Change the activity.
             i.putExtra(EXTRA_ADDRESS, address); //this will be received at ledControl (class) Activity
             startActivity(i);
         }
     };
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_device_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }
