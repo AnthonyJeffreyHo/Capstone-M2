@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_led_controls);
+        setContentView(R.layout.activity_main);
 
 
 
         //Calling widgets
-         Button btnPaired = (Button)findViewById(R.id.paired_device_button);
+        final Button btnPaired = (Button)findViewById(R.id.paired_device_button);
         devicelist = (ListView)findViewById(R.id.listView);
 
         //if the device has bluetooth
