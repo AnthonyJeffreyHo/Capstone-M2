@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.UUID;
 
-public class led_controls extends AppCompatActivity {
+public class BoardControls extends AppCompatActivity {
 
     Button btnOn, btnOff, btnDis, btnStart, btnStop;
     SeekBar brightness;
@@ -33,7 +33,7 @@ public class led_controls extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_led_controls);
+        setContentView(R.layout.activity_board_controls);
 
         Intent newint = getIntent();
         address = newint.getStringExtra(MainActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
@@ -254,7 +254,7 @@ public class led_controls extends AppCompatActivity {
         @Override
         protected void onPreExecute()
         {
-            progress = ProgressDialog.show(led_controls.this, "Connecting...", "Please wait!!!");  //show a progress dialog
+            progress = ProgressDialog.show(BoardControls.this, "Connecting...", "Please wait!!!");  //show a progress dialog
         }
 
         @Override
