@@ -39,6 +39,8 @@ public class led_controls extends AppCompatActivity {
         address = newint.getStringExtra(MainActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
 
 
+        String message = null;
+
         //call the widgtes
         btnOn = (Button)findViewById(R.id.onButton);
         btnOff = (Button)findViewById(R.id.offButton);
@@ -51,7 +53,36 @@ public class led_controls extends AppCompatActivity {
 
         new ConnectBT().execute(); //Call the class to connect
 
+        try{
+            byte [] bytes_from_arduino = new byte[64];
+            btSocket.getInputStream().read(bytes_from_arduino);
+            message = bytes_from_arduino.toString();
+
+        }
+        catch (Exception e){
+            //nah nothing will go wrong.......
+        }
+
+        if(message == "on"){
+
+        }
+        else if(message == "off"){
+
+        }
+        else if(message == "start"){
+
+        }
+        else if(message == "stop"){
+
+        }
+        else{
+            Toast.makeText(this, "The message variable = " + message, Toast.LENGTH_LONG).show();
+        }
+
+        //------------------------------------------------------------------------------------------------------------------------------
         //commands to be sent to bluetooth
+
+        //------------------turn on board------------------
         btnOn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -61,6 +92,7 @@ public class led_controls extends AppCompatActivity {
             }
         });
 
+        //------------------turn off board------------------
         btnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -69,6 +101,7 @@ public class led_controls extends AppCompatActivity {
             }
         });
 
+        //------------------start movement------------------
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -77,6 +110,7 @@ public class led_controls extends AppCompatActivity {
             }
         });
 
+        //------------------stop movement------------------
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
