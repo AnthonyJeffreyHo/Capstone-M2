@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".led_controls"></activity>
+        <activity android:name=".led_controls" />
+        <activity android:name=".DriveMode"></activity>
     </application>
 
 </manifest>
