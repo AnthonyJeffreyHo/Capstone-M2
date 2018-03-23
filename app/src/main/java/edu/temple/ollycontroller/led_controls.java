@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public class led_controls extends AppCompatActivity {
 
-    Button btnOn, btnOff, btnDis;
+    Button btnOn, btnOff, btnDis, btnStart, btnStop;
     SeekBar brightness;
     TextView lumn;
     String address = null;
@@ -40,11 +40,14 @@ public class led_controls extends AppCompatActivity {
 
 
         //call the widgtes
-        btnOn = (Button)findViewById(R.id.button2);
-        btnOff = (Button)findViewById(R.id.button3);
+        btnOn = (Button)findViewById(R.id.onButton);
+        btnOff = (Button)findViewById(R.id.offButton);
         btnDis = (Button)findViewById(R.id.button4);
         brightness = (SeekBar)findViewById(R.id.seekBar);
         lumn = (TextView)findViewById(R.id.lumn);
+        btnStart = (Button)findViewById(R.id.startButton);
+        btnStop = (Button)findViewById(R.id.stopButton);
+
 
         new ConnectBT().execute(); //Call the class to connect
 
@@ -54,7 +57,7 @@ public class led_controls extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                turnOnLed();      //method to turn on
+                turnOnBoard();      //method to turn on
             }
         });
 
@@ -62,9 +65,26 @@ public class led_controls extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                turnOffLed();   //method to turn off
+                turnOffBoard();   //method to turn off
             }
         });
+
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                startBoard();   //method to start board
+            }
+        });
+
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+               stopBoard();   //method to stop board
+            }
+        });
+
 
         btnDis.setOnClickListener(new View.OnClickListener()
         {
@@ -122,13 +142,14 @@ public class led_controls extends AppCompatActivity {
 
     }
 
-    private void turnOffLed()
+    private void turnOffBoard()
     {
         if (btSocket!=null)
         {
             try
             {
-                btSocket.getOutputStream().write("TF".toString().getBytes());
+                String message = "off";
+                btSocket.getOutputStream().write(message.getBytes());
             }
             catch (IOException e)
             {
@@ -137,13 +158,14 @@ public class led_controls extends AppCompatActivity {
         }
     }
 
-    private void turnOnLed()
+    private void turnOnBoard()
     {
         if (btSocket!=null)
         {
             try
             {
-                btSocket.getOutputStream().write("TO".toString().getBytes());
+                String message = "on";
+                btSocket.getOutputStream().write(message.getBytes());
             }
             catch (IOException e)
             {
@@ -151,6 +173,39 @@ public class led_controls extends AppCompatActivity {
             }
         }
     }
+
+
+    private void startBoard(){
+        if (btSocket!=null)
+        {
+            try
+            {
+                String message = "start";
+                btSocket.getOutputStream().write(message.getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+
+    private void stopBoard(){
+        if (btSocket!=null)
+        {
+            try
+            {
+                String message = "stop";
+                btSocket.getOutputStream().write(message.getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
 
 
     private void msg(String s)

@@ -7,7 +7,7 @@
     tools:context="edu.temple.ollycontroller.MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/paired_device_button"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/textView3"
         android:layout_centerHorizontal="true" />
 
 </android.support.constraint.ConstraintLayout>
