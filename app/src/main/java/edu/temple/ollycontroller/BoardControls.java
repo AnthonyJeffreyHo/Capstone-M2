@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ public class BoardControls extends AppCompatActivity {
     private boolean isBtConnected = false;
     //SPP UUID. Look for it
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+    public static String EXTRA_ADDRESS = "device_address";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,6 +187,8 @@ public class BoardControls extends AppCompatActivity {
             {
                 String message = "off";
                 btSocket.getOutputStream().write(message.getBytes());
+
+                finish();
             }
             catch (IOException e)
             {
@@ -216,6 +221,11 @@ public class BoardControls extends AppCompatActivity {
             {
                 String message = "start";
                 btSocket.getOutputStream().write(message.getBytes());
+
+                //change activity to DriveMode
+                Intent i = new Intent(BoardControls.this, DriveMode.class);
+                startActivity(i);
+
             }
             catch (IOException e)
             {
