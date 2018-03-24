@@ -130,9 +130,11 @@ public class DriveMode extends AppCompatActivity {
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            accelerateBoard();
 
         return true;
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            decelerateBoard();
 
         return true;
         } else {
