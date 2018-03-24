@@ -58,8 +58,14 @@ public class DriveMode extends AppCompatActivity {
         btnStart = (Button) findViewById(R.id.startButton);
         btnStop = (Button) findViewById(R.id.stopButton);
         seekSpeed = (SeekBar)findViewById(R.id.seekSpeed);
+        stopButton = (Button) findViewById(R.id.driveStop);
 
-
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         new ConnectBT().execute(); //Call the class to connect
 

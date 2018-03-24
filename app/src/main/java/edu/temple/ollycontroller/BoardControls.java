@@ -224,6 +224,7 @@ public class BoardControls extends AppCompatActivity {
 
                 //change activity to DriveMode
                 Intent i = new Intent(BoardControls.this, DriveMode.class);
+                i.putExtra(EXTRA_ADDRESS, address); //this will be received at ledControl (class) Activity
                 startActivity(i);
 
             }
