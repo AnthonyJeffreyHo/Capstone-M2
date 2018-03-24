@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     {
         public void onItemClick (AdapterView<?> av, View v, int arg2, long arg3)
         {
+            
             // Get the device MAC address, the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
