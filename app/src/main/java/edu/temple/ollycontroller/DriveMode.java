@@ -5,6 +5,9 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,8 +21,13 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.UUID;
 
+
 public class DriveMode extends AppCompatActivity {
 
+    final int maxSpeed = 120;
+    final int minSpeed = 90;
+
+    int speed = 90;
     Button stopButton;
     Button btnOn, btnOff, btnDis, btnStart, btnStop;
     SeekBar seekSpeed;
@@ -197,6 +205,7 @@ public class DriveMode extends AppCompatActivity {
         {
             try
             {
+                speed = 90;
                 String message = "start";
                 btSocket.getOutputStream().write(message.getBytes());
             }
@@ -228,8 +237,35 @@ public class DriveMode extends AppCompatActivity {
         {
             try
             {
-                String message = "accel";
-                btSocket.getOutputStream().write(message.getBytes());
+                //speed range 90-115
+                if (speed < (maxSpeed -4)){
+                    speed += 5;
+                    String message = "accel";
+                    btSocket.getOutputStream().write(message.getBytes());
+
+
+                }
+                //speed range 116-119
+                else if ((speed < maxSpeed) && (speed > (maxSpeed -4))) {
+                    speed = maxSpeed;
+                    String message = "accel";
+                    btSocket.getOutputStream().write(message.getBytes());
+                }
+                else{
+                    //speed should equal 120
+                    speed = maxSpeed;
+                    Toast.makeText(this, "Max speed", Toast.LENGTH_SHORT).show();
+
+                    //       Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+             //       Ringtone ringtoneSound = RingtoneManager.getRingtone(getApplicationContext(), ringtoneUri);
+
+             //       if (ringtoneSound != null) {
+              //          ringtoneSound.play();
+              //          ringtoneSound.stop();
+                        //ringtone plays in infinite loop
+            //        }
+
+                }
             }
             catch (IOException e)
             {
@@ -241,10 +277,42 @@ public class DriveMode extends AppCompatActivity {
     private void decelerateBoard(){
         if (btSocket!=null)
         {
-            try
-            {
-                String message = "decel";
-                btSocket.getOutputStream().write(message.getBytes());
+            try {
+                //speed range 95-120
+                if (speed > (minSpeed +4)) {
+                    speed -= 5;
+                    String message = "decel";
+                    btSocket.getOutputStream().write(message.getBytes());
+                }
+                //speed range 91-94
+                else if((speed < (minSpeed +4)) && (speed > minSpeed)){
+
+                    speed = 90;
+                    String message = "decel";
+                    btSocket.getOutputStream().write(message.getBytes());
+
+                }
+                //speed range 86-90
+                else if ((speed > 85) && (speed <= minSpeed)){
+                    speed--;
+                    String message = "decel";
+                    btSocket.getOutputStream().write(message.getBytes());
+                }
+                else{
+                    //speed should == 85
+                    speed = 85;
+
+                    Toast.makeText(this, "Lowest speed", Toast.LENGTH_SHORT).show();
+
+                    //    Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                //    Ringtone ringtoneSound = RingtoneManager.getRingtone(getApplicationContext(), ringtoneUri);
+
+               //     if (ringtoneSound != null) {
+               //         ringtoneSound.play();
+              //          ringtoneSound.stop();
+                        //ringtone plays in infinite loop
+                //    }
+                }
             }
             catch (IOException e)
             {
