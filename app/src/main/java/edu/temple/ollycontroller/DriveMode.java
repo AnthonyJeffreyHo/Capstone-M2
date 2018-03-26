@@ -178,7 +178,7 @@ public class DriveMode extends AppCompatActivity {
                 String message = "off";
                 btSocket.getOutputStream().write(message.getBytes());
 
-                finish();
+               // finish();
             }
             catch (IOException e)
             {
