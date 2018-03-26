@@ -208,6 +208,9 @@ public class DriveMode extends AppCompatActivity {
                 speed = 90;
                 String message = "start";
                 btSocket.getOutputStream().write(message.getBytes());
+                 message = "on";
+                btSocket.getOutputStream().write(message.getBytes());
+
             }
             catch (IOException e)
             {
@@ -242,6 +245,9 @@ public class DriveMode extends AppCompatActivity {
                     speed += 5;
                     String message = "accel";
                     btSocket.getOutputStream().write(message.getBytes());
+                    message = "on";
+                    btSocket.getOutputStream().write(message.getBytes());
+
 
 
                 }
@@ -250,6 +256,9 @@ public class DriveMode extends AppCompatActivity {
                     speed = maxSpeed;
                     String message = "accel";
                     btSocket.getOutputStream().write(message.getBytes());
+                    message = "on";
+                    btSocket.getOutputStream().write(message.getBytes());
+
                 }
                 else{
                     //speed should equal 120
@@ -283,6 +292,9 @@ public class DriveMode extends AppCompatActivity {
                     speed -= 5;
                     String message = "decel";
                     btSocket.getOutputStream().write(message.getBytes());
+                    message = "on";
+                    btSocket.getOutputStream().write(message.getBytes());
+
                 }
                 //speed range 91-94
                 else if((speed < (minSpeed +4)) && (speed > minSpeed)){
@@ -290,6 +302,9 @@ public class DriveMode extends AppCompatActivity {
                     speed = 90;
                     String message = "decel";
                     btSocket.getOutputStream().write(message.getBytes());
+                    message = "on";
+                    btSocket.getOutputStream().write(message.getBytes());
+
 
                 }
                 //speed range 86-90
@@ -297,6 +312,9 @@ public class DriveMode extends AppCompatActivity {
                     speed--;
                     String message = "decel";
                     btSocket.getOutputStream().write(message.getBytes());
+                    message = "on";
+                    btSocket.getOutputStream().write(message.getBytes());
+
                 }
                 else{
                     //speed should == 85
