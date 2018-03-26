@@ -30,7 +30,6 @@ public class DriveMode extends AppCompatActivity {
     int speed = 90;
     Button stopButton;
     Button btnOn, btnOff, btnDis, btnStart, btnStop;
-    SeekBar seekSpeed;
     String address = null;
     private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
@@ -57,7 +56,6 @@ public class DriveMode extends AppCompatActivity {
         btnDis = (Button) findViewById(R.id.button4);
         btnStart = (Button) findViewById(R.id.startButton);
         btnStop = (Button) findViewById(R.id.stopButton);
-        seekSpeed = (SeekBar)findViewById(R.id.seekSpeed);
         stopButton = (Button) findViewById(R.id.driveStop);
 
         stopButton.setOnClickListener(new View.OnClickListener() {

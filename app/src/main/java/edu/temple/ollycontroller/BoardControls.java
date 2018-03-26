@@ -221,11 +221,14 @@ public class BoardControls extends AppCompatActivity {
             {
                 String message = "start";
                 btSocket.getOutputStream().write(message.getBytes());
+                message = "on";
+                btSocket.getOutputStream().write(message.getBytes());
+
 
                 //change activity to DriveMode
-                Intent i = new Intent(BoardControls.this, DriveMode.class);
-                i.putExtra(EXTRA_ADDRESS, address); //this will be received at ledControl (class) Activity
-                startActivity(i);
+               // Intent i = new Intent(BoardControls.this, DriveMode.class);
+                // i.putExtra(EXTRA_ADDRESS, address); //this will be received at ledControl (class) Activity
+                // startActivity(i);
 
             }
             catch (IOException e)

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Bluetooth Device Not Available", Toast.LENGTH_LONG).show();
 
             //finish apk
-            finish();
+        //    finish();
         }
         else if(!myBluetooth.isEnabled())
         {
