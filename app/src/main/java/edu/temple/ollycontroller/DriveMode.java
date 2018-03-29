@@ -33,7 +33,7 @@ public class DriveMode extends AppCompatActivity {
 
     int speed = 100;
     Button stopButton;
-    Button btnOn, btnOff, btnDis, btnStart, btnStop;
+    Button btnLeft, btnRight, btnStop;
     String address = null;
     private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
@@ -56,22 +56,14 @@ public class DriveMode extends AppCompatActivity {
         String message = null;
 
         //call the widgtes
-        btnOn = (Button) findViewById(R.id.onButton);
-        btnOff = (Button) findViewById(R.id.offButton);
-        btnDis = (Button) findViewById(R.id.button4);
-        btnStart = (Button) findViewById(R.id.startButton);
         btnStop = (Button) findViewById(R.id.stopButton);
         stopButton = (Button) findViewById(R.id.driveStop);
+        btnLeft = (Button) findViewById(R.id.leftButton);
+        btnRight = (Button) findViewById(R.id.rightButton);
 
         atMax = MediaPlayer.create(DriveMode.this, R.raw.pew);
         atMin = MediaPlayer.create(DriveMode.this, R.raw.strange);
 
-        stopButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         new ConnectBT().execute(); //Call the class to connect
 
@@ -84,15 +76,15 @@ public class DriveMode extends AppCompatActivity {
             //nah nothing will go wrong.......
         }
 
-        if (message == "on") {
-
-        } else if (message == "off") {
-
-        } else if (message == "stop") {
+        if (message == "stop") {
 
         } else if (message == "accel") {
 
         } else if (message == "decel") {
+
+        } else if (message == "left"){
+
+        } else if (message == "right"){
 
         } else {
             Toast.makeText(this, "The message variable = " + message, Toast.LENGTH_LONG).show();
@@ -101,46 +93,28 @@ public class DriveMode extends AppCompatActivity {
         //------------------------------------------------------------------------------------------------------------------------------
         //commands to be sent to bluetooth
 
-        //------------------turn on board------------------
-        btnOn.setOnClickListener(new View.OnClickListener() {
+        stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                turnOnBoard();      //method to turn on
+            public void onClick(View view) {
+                stopBoard();
+                finish();
             }
         });
 
-        //------------------turn off board------------------
-        btnOff.setOnClickListener(new View.OnClickListener() {
+        btnLeft.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                turnOffBoard();   //method to turn off
+            public void onClick(View view) {
+                leftTurn();
             }
         });
 
-        //------------------start movement------------------
-        btnStart.setOnClickListener(new View.OnClickListener() {
+        btnRight.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startBoard();   //method to start board
+            public void onClick(View view) {
+                rightTurn();
             }
         });
 
-
-        //------------------stop movement------------------
-        btnStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopBoard();   //method to stop board
-            }
-        });
-
-
-        btnDis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Disconnect(); //close connection
-            }
-        });
     }
 
 
@@ -160,46 +134,12 @@ public class DriveMode extends AppCompatActivity {
         }
     }
 
-    private void Disconnect()
-    {
-        if (btSocket!=null) //If the btSocket is busy
-        {
-            try
-            {
-                btSocket.close(); //close connection
-            }
-            catch (IOException e)
-            { msg("Error");}
-        }
-        finish(); //return to the first layout
-
-    }
-
-    private void turnOffBoard()
-    {
+    private void leftTurn(){
         if (btSocket!=null)
         {
             try
             {
-                String message = "off";
-                btSocket.getOutputStream().write(message.getBytes());
-
-               // finish();
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
-        }
-    }
-
-    private void turnOnBoard()
-    {
-        if (btSocket!=null)
-        {
-            try
-            {
-                String message = "on";
+                String message = "left";
                 btSocket.getOutputStream().write(message.getBytes());
             }
             catch (IOException e)
@@ -209,18 +149,13 @@ public class DriveMode extends AppCompatActivity {
         }
     }
 
-
-    private void startBoard(){
+    private void rightTurn(){
         if (btSocket!=null)
         {
             try
             {
-                speed = 90;
-                String message = "start";
+                String message = "right";
                 btSocket.getOutputStream().write(message.getBytes());
-                 message = "on";
-                btSocket.getOutputStream().write(message.getBytes());
-
             }
             catch (IOException e)
             {
@@ -228,7 +163,6 @@ public class DriveMode extends AppCompatActivity {
             }
         }
     }
-
 
     private void stopBoard(){
         if (btSocket!=null)
