@@ -51,11 +51,9 @@ public class DriveMode extends AppCompatActivity {
 
 
 
-        //Intent newint = getIntent();
-        //address = newint.getStringExtra(MainActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
-        Bundle bundle = getIntent().getExtras();
-        Object[] btsocket_object = (Object[]) bundle.get(EXTRA_ADDRESS);
-        btSocket = (BluetoothSocket) btsocket_object[0];
+        Intent newint = getIntent();
+        address = newint.getStringExtra(MainActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
+
 
         String message = null;
 
