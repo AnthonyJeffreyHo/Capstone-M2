@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.UUID;
 
 public class BoardControls extends AppCompatActivity {
@@ -38,6 +39,8 @@ public class BoardControls extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_controls);
 
+        Random rng = new Random();
+
         Intent newint = getIntent();
         address = newint.getStringExtra(MainActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
 
@@ -56,6 +59,7 @@ public class BoardControls extends AppCompatActivity {
 
         new ConnectBT().execute(); //Call the class to connect
 
+        //----------------------------------------Start of Receiving From Arduino----------------------------------------
         try{
             byte [] bytes_from_arduino = new byte[64];
             btSocket.getInputStream().read(bytes_from_arduino);
@@ -66,6 +70,7 @@ public class BoardControls extends AppCompatActivity {
             //nah nothing will go wrong.......
         }
 
+        //-----------------Start of Handling Info From the Arduino-----------------
         if(message == "on"){
 
         }
@@ -78,12 +83,16 @@ public class BoardControls extends AppCompatActivity {
         else if(message == "stop"){
 
         }
-        else{
+        else{//to see what the message from arduino is if it doesn't match anything in the if-else chain
             Toast.makeText(this, "The message variable = " + message, Toast.LENGTH_LONG).show();
         }
+        //-----------------End of Handling Info From the Arduino-----------------
 
-        //------------------------------------------------------------------------------------------------------------------------------
-        //commands to be sent to bluetooth
+
+        //----------------------------------------End of Receiving From Arduino----------------------------------------
+
+
+        //----------------------------------------Start of Commands to Send to Arduino----------------------------------------
 
         //------------------turn on board------------------
         btnOn.setOnClickListener(new View.OnClickListener()
@@ -91,7 +100,9 @@ public class BoardControls extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+
                 turnOnBoard();      //method to turn on
+
             }
         });
 
@@ -122,7 +133,7 @@ public class BoardControls extends AppCompatActivity {
             }
         });
 
-
+        //------------------Disconnect------------------
         btnDis.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -131,6 +142,7 @@ public class BoardControls extends AppCompatActivity {
                 Disconnect(); //close connection
             }
         });
+        //----------------------------------------End of Commands to Send to Arduino----------------------------------------
 
         brightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -162,7 +174,7 @@ public class BoardControls extends AppCompatActivity {
 
     }
 
-
+    //----------------------------------------Start of Private Stuff That Does The Low Level Stuff----------------------------------------
 
     private void Disconnect()
     {
@@ -213,8 +225,8 @@ public class BoardControls extends AppCompatActivity {
         }
     }
 
-
-    private void startBoard(){
+    private void startBoard()
+    {
         if (btSocket!=null)
         {
             try
@@ -240,8 +252,8 @@ public class BoardControls extends AppCompatActivity {
         }
     }
 
-
-    private void stopBoard(){
+    private void stopBoard()
+    {
         if (btSocket!=null)
         {
             try
@@ -255,8 +267,6 @@ public class BoardControls extends AppCompatActivity {
             }
         }
     }
-
-
 
     private void msg(String s)
     {
@@ -311,5 +321,5 @@ public class BoardControls extends AppCompatActivity {
             progress.dismiss();
         }
     }
-
+    //----------------------------------------End of Private Stuff That Does The Low Level Stuff----------------------------------------
 }
