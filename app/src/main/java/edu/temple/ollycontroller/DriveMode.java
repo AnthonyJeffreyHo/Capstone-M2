@@ -5,10 +5,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -26,6 +28,8 @@ public class DriveMode extends AppCompatActivity {
 
     final int maxSpeed = 120;
     final int minSpeed = 100;
+    MediaPlayer atMax;
+    MediaPlayer atMin;
 
     int speed = 100;
     Button stopButton;
@@ -44,6 +48,7 @@ public class DriveMode extends AppCompatActivity {
         setContentView(R.layout.activity_drive_mode);
 
 
+
         Intent newint = getIntent();
         address = newint.getStringExtra(MainActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
 
@@ -57,6 +62,9 @@ public class DriveMode extends AppCompatActivity {
         btnStart = (Button) findViewById(R.id.startButton);
         btnStop = (Button) findViewById(R.id.stopButton);
         stopButton = (Button) findViewById(R.id.driveStop);
+
+        atMax = MediaPlayer.create(DriveMode.this, R.raw.pew);
+        atMin = MediaPlayer.create(DriveMode.this, R.raw.strange);
 
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,15 +262,8 @@ public class DriveMode extends AppCompatActivity {
                     //speed should equal 120
                     speed = maxSpeed;
                     Toast.makeText(this, "Max speed", Toast.LENGTH_SHORT).show();
+                    atMax.start();
 
-                    //       Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-             //       Ringtone ringtoneSound = RingtoneManager.getRingtone(getApplicationContext(), ringtoneUri);
-
-             //       if (ringtoneSound != null) {
-              //          ringtoneSound.play();
-              //          ringtoneSound.stop();
-                        //ringtone plays in infinite loop
-            //        }
 
                 }
             }
@@ -291,15 +292,7 @@ public class DriveMode extends AppCompatActivity {
                     speed = minSpeed;
 
                     Toast.makeText(this, "Lowest speed", Toast.LENGTH_SHORT).show();
-
-                    //    Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-                //    Ringtone ringtoneSound = RingtoneManager.getRingtone(getApplicationContext(), ringtoneUri);
-
-               //     if (ringtoneSound != null) {
-               //         ringtoneSound.play();
-              //          ringtoneSound.stop();
-                        //ringtone plays in infinite loop
-                //    }
+                    atMin.start();
                 }
             }
             catch (IOException e)
