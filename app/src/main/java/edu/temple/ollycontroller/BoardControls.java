@@ -200,7 +200,7 @@ public class BoardControls extends AppCompatActivity {
                 String message = "off";
                 btSocket.getOutputStream().write(message.getBytes());
 
-                finish();
+               // finish();
             }
             catch (IOException e)
             {
@@ -211,6 +211,7 @@ public class BoardControls extends AppCompatActivity {
 
     private void turnOnBoard()
     {
+        Random rng = new Random();
         if (btSocket!=null)
         {
             try
@@ -241,7 +242,9 @@ public class BoardControls extends AppCompatActivity {
                 Intent i = new Intent(BoardControls.this, DriveMode.class);
 
                 //Change the activity.
-                i.putExtra(EXTRA_ADDRESS, address); //this will be received at ledControl (class) Activity
+                Object [] socket_holder = new Object[1];
+                socket_holder[0]= btSocket;
+                i.putExtra(EXTRA_ADDRESS, socket_holder); //this will be received at ledControl (class) Activity
                 startActivity(i);
 
             }

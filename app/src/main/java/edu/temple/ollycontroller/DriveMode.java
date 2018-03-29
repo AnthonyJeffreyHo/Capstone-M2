@@ -23,6 +23,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.UUID;
 
+import static edu.temple.ollycontroller.MainActivity.EXTRA_ADDRESS;
+
 
 public class DriveMode extends AppCompatActivity {
 
@@ -49,9 +51,11 @@ public class DriveMode extends AppCompatActivity {
 
 
 
-        Intent newint = getIntent();
-        address = newint.getStringExtra(MainActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
-
+        //Intent newint = getIntent();
+        //address = newint.getStringExtra(MainActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
+        Bundle bundle = getIntent().getExtras();
+        Object[] btsocket_object = (Object[]) bundle.get(EXTRA_ADDRESS);
+        btSocket = (BluetoothSocket) btsocket_object[0];
 
         String message = null;
 
@@ -65,7 +69,7 @@ public class DriveMode extends AppCompatActivity {
         atMin = MediaPlayer.create(DriveMode.this, R.raw.strange);
 
 
-        new ConnectBT().execute(); //Call the class to connect
+        //new ConnectBT().execute(); //Call the class to connect
 
         try {
             byte[] bytes_from_arduino = new byte[64];
@@ -243,6 +247,8 @@ public class DriveMode extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
     }
 
+
+    /*
     private class ConnectBT extends AsyncTask<Void, Void, Void>  // UI thread
     {
         private boolean ConnectSuccess = true; //if it's here, it's almost connected
@@ -291,4 +297,6 @@ public class DriveMode extends AppCompatActivity {
             progress.dismiss();
         }
     }
+
+    */
 }
