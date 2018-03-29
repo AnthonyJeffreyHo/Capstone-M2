@@ -25,9 +25,9 @@ import java.util.UUID;
 public class DriveMode extends AppCompatActivity {
 
     final int maxSpeed = 120;
-    final int minSpeed = 90;
+    final int minSpeed = 100;
 
-    int speed = 90;
+    int speed = 100;
     Button stopButton;
     Button btnOn, btnOff, btnDis, btnStart, btnStop;
     String address = null;
@@ -79,8 +79,6 @@ public class DriveMode extends AppCompatActivity {
         if (message == "on") {
 
         } else if (message == "off") {
-
-        } else if (message == "start") {
 
         } else if (message == "stop") {
 
@@ -244,27 +242,15 @@ public class DriveMode extends AppCompatActivity {
         {
             try
             {
-                //speed range 90-115
-                if (speed < (maxSpeed -4)){
-                    speed += 5;
+                //speed range 100-118
+                if (speed < maxSpeed){
+                    speed += 2;
                     String message = "accel";
                     btSocket.getOutputStream().write(message.getBytes());
                     message = "on";
                     btSocket.getOutputStream().write(message.getBytes());
 
-
-
-                }
-                //speed range 116-119
-                else if ((speed < maxSpeed) && (speed > (maxSpeed -4))) {
-                    speed = maxSpeed;
-                    String message = "accel";
-                    btSocket.getOutputStream().write(message.getBytes());
-                    message = "on";
-                    btSocket.getOutputStream().write(message.getBytes());
-
-                }
-                else{
+                } else{
                     //speed should equal 120
                     speed = maxSpeed;
                     Toast.makeText(this, "Max speed", Toast.LENGTH_SHORT).show();
@@ -291,29 +277,9 @@ public class DriveMode extends AppCompatActivity {
         if (btSocket!=null)
         {
             try {
-                //speed range 95-120
-                if (speed > (minSpeed +4)) {
-                    speed -= 5;
-                    String message = "decel";
-                    btSocket.getOutputStream().write(message.getBytes());
-                    message = "on";
-                    btSocket.getOutputStream().write(message.getBytes());
-
-                }
-                //speed range 91-94
-                else if((speed < (minSpeed +4)) && (speed > minSpeed)){
-
-                    speed = 90;
-                    String message = "decel";
-                    btSocket.getOutputStream().write(message.getBytes());
-                    message = "on";
-                    btSocket.getOutputStream().write(message.getBytes());
-
-
-                }
-                //speed range 86-90
-                else if ((speed > 85) && (speed <= minSpeed)){
-                    speed--;
+                //speed range 102-120
+                if (speed > minSpeed) {
+                    speed -= 2;
                     String message = "decel";
                     btSocket.getOutputStream().write(message.getBytes());
                     message = "on";
@@ -322,7 +288,7 @@ public class DriveMode extends AppCompatActivity {
                 }
                 else{
                     //speed should == 85
-                    speed = 85;
+                    speed = minSpeed;
 
                     Toast.makeText(this, "Lowest speed", Toast.LENGTH_SHORT).show();
 
