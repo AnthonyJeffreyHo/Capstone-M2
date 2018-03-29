@@ -234,8 +234,8 @@ public class BoardControls extends AppCompatActivity {
             {
                 String message = "start";
                 btSocket.getOutputStream().write(message.getBytes());
-                message = "on";
-                btSocket.getOutputStream().write(message.getBytes());
+                //message = "on";
+                //btSocket.getOutputStream().write(message.getBytes());
 
 
                 // Make an intent to start next activity.

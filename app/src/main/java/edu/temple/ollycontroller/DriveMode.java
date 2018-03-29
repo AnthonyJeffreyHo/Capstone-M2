@@ -191,8 +191,8 @@ public class DriveMode extends AppCompatActivity {
                     speed += 2;
                     String message = "accel";
                     btSocket.getOutputStream().write(message.getBytes());
-                    message = "on";
-                    btSocket.getOutputStream().write(message.getBytes());
+                    //message = "on";
+                    //btSocket.getOutputStream().write(message.getBytes());
 
                 } else{
                     //speed should equal 120
@@ -219,8 +219,8 @@ public class DriveMode extends AppCompatActivity {
                     speed -= 2;
                     String message = "decel";
                     btSocket.getOutputStream().write(message.getBytes());
-                    message = "on";
-                    btSocket.getOutputStream().write(message.getBytes());
+                    //message = "on";
+                    //btSocket.getOutputStream().write(message.getBytes());
 
                 }
                 else{
