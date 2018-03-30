@@ -5,9 +5,11 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -216,7 +218,7 @@ public class BoardControls extends AppCompatActivity {
         {
             try
             {
-                String message = "on";
+                String message = "on" + (rng.nextInt(89)+10);
                 btSocket.getOutputStream().write(message.getBytes());
             }
             catch (IOException e)
@@ -268,6 +270,88 @@ public class BoardControls extends AppCompatActivity {
             }
         }
     }
+
+
+    final int maxSpeed = 120;
+    final int minSpeed = 100;
+    int speed = 100;
+    MediaPlayer atMax;
+    MediaPlayer atMin;
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            accelerateBoard();
+
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            decelerateBoard();
+
+            return true;
+        } else {
+            return super.dispatchKeyEvent(event);
+        }
+    }
+
+    private void accelerateBoard(){
+        if (btSocket!=null)
+        {
+            try
+            {
+                //speed range 100-118
+                if (speed <= maxSpeed){
+                    speed += 2;
+                    String message = "accel";
+                    btSocket.getOutputStream().write(message.getBytes());
+                    //message = "on";
+                    //btSocket.getOutputStream().write(message.getBytes());
+
+                } else{
+                    //speed should equal 120
+                    speed = maxSpeed;
+                    Toast.makeText(this, "Max speed", Toast.LENGTH_SHORT).show();
+                    atMax.start();
+
+
+                }
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void decelerateBoard(){
+        if (btSocket!=null)
+        {
+            try {
+                //speed range 102-120
+                if (speed > minSpeed) {
+                    speed -= 2;
+                    String message = "decel";
+                    btSocket.getOutputStream().write(message.getBytes());
+                    //message = "on";
+                    //btSocket.getOutputStream().write(message.getBytes());
+
+                }
+                else{
+                    //speed should == 85
+                    speed = minSpeed;
+
+                    Toast.makeText(this, "Lowest speed", Toast.LENGTH_SHORT).show();
+                    atMin.start();
+                }
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+
 
     private void msg(String s)
     {
