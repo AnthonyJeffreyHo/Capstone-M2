@@ -7,11 +7,10 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -102,9 +101,7 @@ public class BoardControls extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-
                 turnOnBoard();      //method to turn on
-
             }
         });
 
@@ -146,6 +143,8 @@ public class BoardControls extends AppCompatActivity {
         });
         //----------------------------------------End of Commands to Send to Arduino----------------------------------------
 
+
+        //brightness slider bar thing that might be taken out or reused for something else.....
         brightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -178,7 +177,9 @@ public class BoardControls extends AppCompatActivity {
 
     //----------------------------------------Start of Private Stuff That Does The Low Level Stuff----------------------------------------
 
-    private void Disconnect()
+    final Random rng = new Random();
+
+    private void Disconnect()//DISCONNECTING THE PHONE FROM THE BLUETOOTH MODULE
     {
         if (btSocket!=null) //If the btSocket is busy
         {
@@ -193,13 +194,13 @@ public class BoardControls extends AppCompatActivity {
 
     }
 
-    private void turnOffBoard()
+    private void turnOffBoard()//DISARMS THE ESC
     {
         if (btSocket!=null)
         {
             try
-            {
-                String message = "off";
+            {//d for disarm
+                String message = "d" + (rng.nextInt(89)+10);
                 btSocket.getOutputStream().write(message.getBytes());
 
                // finish();
@@ -211,14 +212,15 @@ public class BoardControls extends AppCompatActivity {
         }
     }
 
-    private void turnOnBoard()
+    private void turnOnBoard()//ARMS THE ESC
     {
-        Random rng = new Random();
+
         if (btSocket!=null)
         {
             try
-            {
-                String message = "on" + (rng.nextInt(89)+10);
+            {//a for arm
+                int message_id =  + (rng.nextInt(89)+10);
+                String message = "a" + message_id;
                 btSocket.getOutputStream().write(message.getBytes());
             }
             catch (IOException e)
@@ -228,13 +230,14 @@ public class BoardControls extends AppCompatActivity {
         }
     }
 
-    private void startBoard()
+    private void startBoard()//STARTS BOARD MOVEMENT AND LAUNCHES DRIVE MODE ACTIVITY
     {
         if (btSocket!=null)
         {
             try
             {
-                String message = "start";
+                int message_id =  + (rng.nextInt(89)+10);
+                String message = "g" + message_id;
                 btSocket.getOutputStream().write(message.getBytes());
                 //message = "on";
                 //btSocket.getOutputStream().write(message.getBytes());
@@ -255,13 +258,14 @@ public class BoardControls extends AppCompatActivity {
         }
     }
 
-    private void stopBoard()
+    private void stopBoard()//STOPS BOARD MOVEMENT
     {
         if (btSocket!=null)
         {
             try
             {
-                String message = "stop";
+                int message_id =  + (rng.nextInt(89)+10);
+                String message = "s" + message_id;
                 btSocket.getOutputStream().write(message.getBytes());
             }
             catch (IOException e)
@@ -271,7 +275,7 @@ public class BoardControls extends AppCompatActivity {
         }
     }
 
-
+//----------------------------------------------------Start of Temp. Rocker Controls For Testing----------------------------------------------------
     final int maxSpeed = 120;
     final int minSpeed = 100;
     int speed = 100;
@@ -300,9 +304,10 @@ public class BoardControls extends AppCompatActivity {
             try
             {
                 //speed range 100-118
-                if (speed <= maxSpeed){
+                if (speed <= maxSpeed){//UPPER ROCKER BUTTON
+                    int message_id =  + (rng.nextInt(89)+10);
                     speed += 2;
-                    String message = "accel";
+                    String message = "v" + message_id;
                     btSocket.getOutputStream().write(message.getBytes());
                     //message = "on";
                     //btSocket.getOutputStream().write(message.getBytes());
@@ -323,14 +328,15 @@ public class BoardControls extends AppCompatActivity {
         }
     }
 
-    private void decelerateBoard(){
+    private void decelerateBoard(){//LOWER ROCKER BUTTON
         if (btSocket!=null)
         {
             try {
                 //speed range 102-120
                 if (speed > minSpeed) {
+                    int message_id =  + (rng.nextInt(89)+10);
                     speed -= 2;
-                    String message = "decel";
+                    String message = "p" + message_id;
                     btSocket.getOutputStream().write(message.getBytes());
                     //message = "on";
                     //btSocket.getOutputStream().write(message.getBytes());
@@ -350,7 +356,7 @@ public class BoardControls extends AppCompatActivity {
             }
         }
     }
-
+//----------------------------------------------------End of Temp. Rocker Controls For Testing----------------------------------------------------
 
 
     private void msg(String s)

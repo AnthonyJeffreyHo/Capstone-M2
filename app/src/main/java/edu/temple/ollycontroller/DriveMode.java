@@ -2,28 +2,19 @@ package edu.temple.ollycontroller;
 
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.UUID;
-
-import static edu.temple.ollycontroller.MainActivity.EXTRA_ADDRESS;
 
 
 public class DriveMode extends AppCompatActivity {
@@ -181,6 +172,8 @@ public class DriveMode extends AppCompatActivity {
         }
     }
 
+    Random rng = new Random();
+
     private void accelerateBoard(){
         if (btSocket!=null)
         {
@@ -188,8 +181,9 @@ public class DriveMode extends AppCompatActivity {
             {
                 //speed range 100-118
                 if (speed < maxSpeed){
+                    int message_id =  + (rng.nextInt(89)+10);
                     speed += 2;
-                    String message = "accel";
+                    String message = "v" + message_id;
                     btSocket.getOutputStream().write(message.getBytes());
                     //message = "on";
                     //btSocket.getOutputStream().write(message.getBytes());
@@ -216,8 +210,9 @@ public class DriveMode extends AppCompatActivity {
             try {
                 //speed range 102-120
                 if (speed > minSpeed) {
+                    int message_id =  + (rng.nextInt(89)+10);
                     speed -= 2;
-                    String message = "decel";
+                    String message = "p" + message_id;
                     btSocket.getOutputStream().write(message.getBytes());
                     //message = "on";
                     //btSocket.getOutputStream().write(message.getBytes());
