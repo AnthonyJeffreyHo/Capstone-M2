@@ -132,7 +132,8 @@ public class DriveMode extends AppCompatActivity {
         {
             try
             {
-                String message = "left";
+                int message_id =  + (rng.nextInt(89)+10);
+                String message = "l" + message_id;
                 btSocket.getOutputStream().write(message.getBytes());
             }
             catch (IOException e)
@@ -147,7 +148,8 @@ public class DriveMode extends AppCompatActivity {
         {
             try
             {
-                String message = "right";
+                int message_id =  + (rng.nextInt(89)+10);
+                String message = "r" + message_id;
                 btSocket.getOutputStream().write(message.getBytes());
             }
             catch (IOException e)
@@ -162,7 +164,8 @@ public class DriveMode extends AppCompatActivity {
         {
             try
             {
-                String message = "stop";
+                int message_id =  + (rng.nextInt(89)+10);
+                String message = "s" + message_id;
                 btSocket.getOutputStream().write(message.getBytes());
             }
             catch (IOException e)
