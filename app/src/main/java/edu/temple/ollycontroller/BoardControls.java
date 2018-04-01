@@ -198,17 +198,19 @@ public class BoardControls extends AppCompatActivity {
     {
         if (btSocket!=null)
         {
-            try
-            {//d for disarm
-                String message = "d" + (rng.nextInt(89)+10);
-                btSocket.getOutputStream().write(message.getBytes());
+            int message_id =  + (rng.nextInt(89)+10);
+            String message = "d" + message_id;
 
-               // finish();
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
+            protocol_thread pt = new protocol_thread(message,message_id);
+            Thread disarm_thread = new Thread(pt);
+            disarm_thread.start();
+
+            //String message = "d" + (rng.nextInt(89)+10);
+            //btSocket.getOutputStream().write(message.getBytes());
+
+           // finish();
+
+
         }
     }
 
@@ -412,5 +414,66 @@ public class BoardControls extends AppCompatActivity {
             progress.dismiss();
         }
     }
+
+    class protocol_thread implements Runnable{
+        String app_message;
+        int message_id;
+
+        byte[] arduino_message_byte_array;
+        String arduino_ok_message = "";
+        boolean got_message;
+
+        Thread wait_thread = new Thread();
+
+        //constructor for the thread. gets the message and the id
+        protocol_thread (String message, int m_id){
+            app_message = message;
+            message_id = m_id;
+        }
+
+        @Override
+        public void run(){
+            got_message = false;
+            while(!got_message){
+                got_message = did_app_get_message();
+            }
+
+
+        }
+        public boolean did_app_get_message(){
+            try{
+                //this will write the message out to the arduino
+                btSocket.getOutputStream().write(app_message.getBytes());
+
+                //this will cause the runnable to wait for half a second
+                wait_thread.wait(500);
+
+                //this will get a message from the arduino
+                btSocket.getInputStream().read(arduino_message_byte_array);
+
+                //this converts the byte array into a string
+                arduino_ok_message = arduino_message_byte_array.toString();
+
+                //if else chain to check the returning message
+                if(arduino_ok_message != "k"){
+                    return false;
+                }
+                else if(arduino_ok_message == "k"){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+
+            }
+            catch(Exception e){
+
+            }
+            return false;
+        }
+
+    }
+
+
     //----------------------------------------End of Private Stuff That Does The Low Level Stuff----------------------------------------
 }
